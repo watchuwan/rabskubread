@@ -28,10 +28,10 @@
                             <p class="text-sm text-neutral-600">
                                 Silakan selesaikan pembayaran dalam waktu 24 jam sebelum pesanan dibatalkan.
                             </p>
-                            <button class="btn-primary mt-3">
-                                <svg class="w-5 h-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                            <a href="{{ route('orders.payment', $order->id) }}" class="btn-primary mt-3 inline-flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
                                 Bayar Sekarang
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                                 <p class="text-sm text-neutral-500">{{ $order->created_at->format('d M Y, H:i') }}</p>
                             </div>
                         </div>
-                        
+
                         @if($order->paid_at)
                             <div class="flex gap-4">
                                 <div class="flex flex-col items-center">
@@ -145,7 +145,7 @@
                                 </div>
                             </div>
                         @endif
-                        
+
                         @if($order->shipped_at)
                             <div class="flex gap-4">
                                 <div class="flex flex-col items-center">
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
                         @endif
-                        
+
                         @if($order->completed_at)
                             <div class="flex gap-4">
                                 <div class="flex flex-col items-center">
@@ -201,9 +201,9 @@
                                 <span class="font-medium">- Rp {{ number_format($order->discount, 0, ',', '.') }}</span>
                             </div>
                         @endif
-                        
+
                         <div class="border-t border-neutral-200 pt-3"></div>
-                        
+
                         <div class="flex justify-between text-lg font-bold text-neutral-900">
                             <span>Total</span>
                             <span class="text-cream-600">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
@@ -217,10 +217,6 @@
                                 <svg class="w-5 h-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                                 Pesan Lagi
                             </button>
-                            <button class="btn-secondary w-full" wire:click="downloadInvoice">
-                                <svg class="w-5 h-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                Download Invoice
-                            </button>
                         @endif
 
                         @if($order->status === 'pending')
@@ -231,7 +227,7 @@
                         @endif
 
                         @if(in_array($order->status, ['pending', 'processing']))
-                            <button 
+                            <button
                                 @click="$dispatch('open-modal', 'cancel-order')"
                                 class="btn-secondary w-full text-danger border-danger hover:bg-danger-50"
                             >
@@ -243,7 +239,7 @@
                         @if($order->status !== 'cancelled')
                             <button wire:click="downloadInvoice" class="btn-secondary w-full">
                                 <svg class="w-5 h-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                Download Invoice
+                                Unduh Invoice
                             </button>
                         @endif
                     </div>
@@ -318,13 +314,13 @@
 
                 <!-- Actions -->
                 <div class="flex gap-3">
-                    <button 
+                    <button
                         @click="show = false"
                         class="flex-1 px-4 py-2.5 text-sm font-medium text-neutral-700 bg-neutral-100 hover:bg-neutral-200 rounded-lg transition-colors"
                     >
                         Tidak, Kembali
                     </button>
-                    <button 
+                    <button
                         wire:click="cancelOrder"
                         @click="show = false"
                         class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"

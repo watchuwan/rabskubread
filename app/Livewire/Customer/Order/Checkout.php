@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
+use App\Models\Voucher;
 use App\Services\PromotionService;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
@@ -121,7 +122,30 @@ class Checkout extends Component
 
     public function applyVoucher(): void
     {
-        $this->dispatch('toast', message: 'Fitur voucher akan segera hadir', type: 'info');
+        if (empty(trim($this->voucherCode))) {
+            $this->dispatch('toast', message: 'Masukkan kode voucher', type: 'error');
+            return;
+        }
+
+        $voucher = Voucher::where('code', strtoupper(trim($this->voucherCode)))->first();
+
+        if (!$voucher || !$voucher->isValid()) {
+            $this->dispatch('toast', message: 'Kode voucher tidak valid atau sudah kadaluarsa', type: 'error');
+            return;
+        }
+
+        $discountAmount = $voucher->calculateDiscount($this->subtotal);
+
+        if ($discountAmount <= 0) {
+            $this->dispatch('toast', message: 'Subtotal tidak memenuhi minimum order voucher ini (min. Rp ' . number_format($voucher->min_order_amount, 0, ',', '.') . ')', type: 'error');
+            return;
+        }
+
+        $this->voucherId = $voucher->id;
+        $this->discount  = $discountAmount;
+        $this->calculateTotals();
+
+        $this->dispatch('toast', message: 'Voucher berhasil diterapkan! Diskon Rp ' . number_format($discountAmount, 0, ',', '.'), type: 'success');
     }
 
     public function placeOrder(): void
@@ -155,12 +179,17 @@ class Checkout extends Component
             'status'             => 'pending',
             'subtotal'           => $this->subtotal,
             'shipping_cost'      => $this->shippingCost,
+            'voucher_id'         => $this->voucherId,
             'voucher_discount'   => $this->discount + $this->promotionDiscount,
             'total_amount'       => $this->total,
             'shipping_method_id' => $this->selectedShippingMethod,
             'address_id'         => $this->selectedAddress,
             'notes'              => null,
         ]);
+
+        if ($this->voucherId) {
+            Voucher::find($this->voucherId)?->incrementUsage();
+        }
 
         foreach ($this->cartItems as $item) {
             $price = $item->promotion_price ?? $item->product->price;
@@ -215,6 +244,11 @@ class Checkout extends Component
                 ])->when($this->discount > 0, fn ($c) => $c->concat([
                     ['id' => 'DISCOUNT', 'price' => -(int) $this->discount, 'quantity' => 1, 'name' => 'Diskon'],
                 ]))->values()->toArray(),
+                'callbacks' => [
+                    'finish'   => route('orders.payment', $order->id),
+                    'unfinish' => route('orders.payment', $order->id),
+                    'error'    => route('orders.payment', $order->id),
+                ],
             ];
 
             $snapToken = \Midtrans\Snap::getSnapToken($params);

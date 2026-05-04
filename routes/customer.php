@@ -105,4 +105,5 @@ Route::middleware("auth:customer")->group(function () {
     Route::get("/orders/{order}/payment", OrderPayment::class)->name(
         "orders.payment",
     );
+    Route::get("/orders/{order}/invoice", [\App\Http\Controllers\Customer\InvoiceController::class, 'download'])->name("orders.invoice");
 });

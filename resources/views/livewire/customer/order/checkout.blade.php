@@ -249,6 +249,18 @@
                                 <span>Ongkos Kirim</span>
                                 <span class="font-medium">Rp {{ number_format($shippingCost, 0, ',', '.') }}</span>
                             </div>
+                            @if($promotionDiscount > 0)
+                            <div class="flex justify-between text-sm text-success">
+                                <span>Diskon Promosi</span>
+                                <span class="font-medium">- Rp {{ number_format($promotionDiscount, 0, ',', '.') }}</span>
+                            </div>
+                            @endif
+                            @if($discount > 0)
+                            <div class="flex justify-between text-sm text-success">
+                                <span>Diskon Voucher <span class="text-xs font-normal">({{ strtoupper($voucherCode) }})</span></span>
+                                <span class="font-medium">- Rp {{ number_format($discount, 0, ',', '.') }}</span>
+                            </div>
+                            @endif
                             <div class="border-t border-neutral-200 pt-3"></div>
                             <div class="flex justify-between text-lg font-bold text-neutral-900">
                                 <span>Total</span>

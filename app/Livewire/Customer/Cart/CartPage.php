@@ -4,6 +4,7 @@ namespace App\Livewire\Customer\Cart;
 
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Voucher;
 use App\Services\PromotionService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -162,6 +163,8 @@ class CartPage extends Component
         if ($cart) {
             $itemCount = $cart->items()->count();
             $cart->items()->delete();
+            $this->discount = 0;
+            $this->voucherCode = '';
             $this->loadCart();
             $this->dispatch('cart-updated');
             $this->dispatch('toast', message: "{$itemCount} produk dihapus dari keranjang", type: 'success');
@@ -172,7 +175,29 @@ class CartPage extends Component
 
     public function applyVoucher(): void
     {
-        $this->dispatch('toast', message: 'Fitur voucher akan segera hadir', type: 'info');
+        if (empty(trim($this->voucherCode))) {
+            $this->dispatch('toast', message: 'Masukkan kode voucher', type: 'error');
+            return;
+        }
+
+        $voucher = Voucher::where('code', strtoupper(trim($this->voucherCode)))->first();
+
+        if (!$voucher || !$voucher->isValid()) {
+            $this->dispatch('toast', message: 'Kode voucher tidak valid atau sudah kadaluarsa', type: 'error');
+            return;
+        }
+
+        $discountAmount = $voucher->calculateDiscount($this->subtotal);
+
+        if ($discountAmount <= 0) {
+            $this->dispatch('toast', message: 'Subtotal tidak memenuhi minimum order voucher ini (min. Rp ' . number_format($voucher->min_order_amount, 0, ',', '.') . ')', type: 'error');
+            return;
+        }
+
+        $this->discount = $discountAmount;
+        $this->calculateTotals();
+
+        $this->dispatch('toast', message: 'Voucher berhasil diterapkan! Diskon Rp ' . number_format($discountAmount, 0, ',', '.'), type: 'success');
     }
 
     public function calculateTotals(): void

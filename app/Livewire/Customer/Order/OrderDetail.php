@@ -70,8 +70,7 @@ class OrderDetail extends Component
 
     public function downloadInvoice(): void
     {
-        // TODO: Implement PDF invoice generation
-        $this->dispatch('toast', message: 'Fitur download invoice akan segera hadir', type: 'info');
+        $this->redirect(route('orders.invoice', $this->order->id));
     }
 
     public function render(): \Illuminate\View\View

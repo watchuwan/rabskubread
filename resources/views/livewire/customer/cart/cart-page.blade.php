@@ -218,6 +218,20 @@
                                 </span>
                             </div>
 
+                            @if($promotionDiscount > 0)
+                            <div class="flex justify-between text-success">
+                                <span>Diskon Promosi</span>
+                                <span class="font-medium">- Rp {{ number_format($promotionDiscount, 0, ',', '.') }}</span>
+                            </div>
+                            @endif
+
+                            @if($discount > 0)
+                            <div class="flex justify-between text-success">
+                                <span>Diskon Voucher <span class="text-xs font-normal">({{ strtoupper($voucherCode) }})</span></span>
+                                <span class="font-medium">- Rp {{ number_format($discount, 0, ',', '.') }}</span>
+                            </div>
+                            @endif
+
                             <!-- Divider -->
                             <div class="border-t border-neutral-200"></div>
 
