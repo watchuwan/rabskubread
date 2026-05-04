@@ -1,0 +1,15 @@
+name,category,description,price,stock,low_stock_threshold,sku,ingredients,allergens,preparation_time,size,calories,is_customizable,is_active
+Roti Tawar Gandum,Roti Tawar,Roti tawar gandum utuh kaya serat,15000,50,10,SKU-RTG001,"tepung gandum,air,ragi,garam","gluten",30,Loaf,120,0,1
+Roti Tawar Susu,Roti Tawar,Roti tawar lembut dengan susu segar,16000,45,10,SKU-RTS002,"tepung terigu,susu,mentega,ragi,gula,garam","gluten,susu",30,Loaf,130,0,1
+Croissant Butter,Croissant,Croissant klasik dengan butter premium,18000,30,10,SKU-CRB003,"tepung terigu,butter,susu,ragi,gula,garam","gluten,susu",45,Medium,220,0,1
+Croissant Almond,Croissant,Croissant dengan filling almond,22000,20,10,SKU-CRA004,"tepung terigu,butter,almond,susu,ragi,gula","gluten,susu,kacang",45,Medium,280,0,1
+Donat Coklat,Donat,Donat lembut dengan topping coklat,12000,40,10,SKU-DNC005,"tepung terigu,telur,susu,coklat,gula,ragi","gluten,susu,telur",20,Regular,250,0,1
+Donat Strawberry,Donat,Donat dengan glaze strawberry,13000,38,10,SKU-DNS006,"tepung terigu,telur,susu,strawberry,gula,ragi","gluten,susu,telur",20,Regular,230,0,1
+Cookies Almond,Kue Kering,Cookies renyah dengan almond slice,25000,25,5,SKU-CKA007,"tepung terigu,almond,butter,gula,telur","gluten,kacang,telur,susu",25,100gr,180,0,1
+Cookies Chocolate Chip,Kue Kering,Cookies dengan chocolate chip premium,28000,30,5,SKU-CKC008,"tepung terigu,chocolate chip,butter,gula,telur","gluten,susu,telur",25,100gr,210,0,1
+Red Velvet Cake,Cake,Red velvet cake dengan cream cheese frosting,85000,10,3,SKU-CAK009,"tepung terigu,cream cheese,telur,susu,pewarna merah,gula","gluten,susu,telur",60,18cm,380,1,1
+Chocolate Cake,Cake,Chocolate cake berlapis dengan ganache,95000,8,3,SKU-CAK010,"tepung terigu,coklat,telur,susu,butter,gula","gluten,susu,telur",60,18cm,420,1,1
+Apple Pie,Pastry,Pie apel dengan kulit pastry renyah,45000,15,5,SKU-PST011,"tepung terigu,apel,butter,gula,kayu manis","gluten,susu",50,Slice,310,0,1
+Baguette Original,Baguette,Baguette khas Prancis dengan crust renyah,20000,15,5,SKU-BAG012,"tepung terigu,air,ragi,garam","gluten",90,40cm,180,0,1
+Cupcake Vanilla,Cupcake,Cupcake vanilla dengan buttercream,15000,35,10,SKU-CUP013,"tepung terigu,vanilla,butter,telur,susu,gula","gluten,susu,telur",30,Regular,200,0,1
+Cupcake Red Velvet,Cupcake,Cupcake red velvet dengan cream cheese,18000,30,10,SKU-CUP014,"tepung terigu,cream cheese,telur,susu,pewarna merah","gluten,susu,telur",30,Regular,220,1,1

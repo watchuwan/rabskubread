@@ -1,0 +1,335 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+
+    /* Amber — brand primary */
+    --color-amber-50:  #FFFBEB;
+    --color-amber-100: #FEF3C7;
+    --color-amber-200: #FDE68A;
+    --color-amber-300: #FCD34D;
+    --color-amber-400: #FBBF24;
+    --color-amber-500: #F59E0B;
+    --color-amber-600: #D97706;
+    --color-amber-700: #B45309;
+    --color-amber-800: #92400E;
+    --color-amber-900: #78350F;
+
+    /* Cream — accent / highlight */
+    --color-cream-50:  #FFFEF9;
+    --color-cream-100: #FFFCF0;
+    --color-cream-200: #FFF8E1;
+    --color-cream-300: #FFF0C2;
+    --color-cream-400: #FFE8A3;
+    --color-cream-500: #FFDC7A;
+
+    /* Neutral — stone-based (warmer than zinc) */
+    --color-neutral-50:  #FAFAF9;
+    --color-neutral-100: #F5F5F4;
+    --color-neutral-200: #E7E5E4;
+    --color-neutral-300: #D6D3D1;
+    --color-neutral-400: #A8A29E;
+    --color-neutral-500: #78716C;
+    --color-neutral-600: #57534E;
+    --color-neutral-700: #44403C;
+    --color-neutral-800: #292524;
+    --color-neutral-900: #1C1917;
+    --color-neutral-950: #0C0A09;
+
+    /* Semantic */
+    --color-success: #10B981;
+    --color-danger:  #EF4444;
+    --color-warning: #F59E0B;
+    --color-info:    #3B82F6;
+
+    /* Brand tokens */
+    --color-primary:            var(--color-amber-500);
+    --color-primary-hover:      var(--color-amber-600);
+    --color-primary-foreground: #FFFFFF;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── BASE ─────────────────────────────────────────────── */
+@layer base {
+    html { font-family: var(--font-sans); scroll-behavior: smooth; }
+
+    body { @apply bg-white text-neutral-900 antialiased; }
+
+    h1, h2, h3 { font-family: var(--font-display); }
+
+    ::-webkit-scrollbar       { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { @apply bg-neutral-100; }
+    ::-webkit-scrollbar-thumb { @apply bg-neutral-300 rounded-full; }
+    ::-webkit-scrollbar-thumb:hover { @apply bg-amber-400; }
+}
+
+/* ─── COMPONENTS ───────────────────────────────────────── */
+@layer components {
+
+    /* --- Buttons --- */
+    .btn-primary {
+        @apply inline-flex items-center justify-center gap-2
+               bg-amber-500 hover:bg-amber-600 active:bg-amber-700
+               text-white font-semibold text-sm
+               px-5 py-2.5 rounded-xl
+               shadow-sm hover:shadow-md
+               transition-all duration-200
+               focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2
+               disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center gap-2
+               bg-white hover:bg-neutral-50
+               text-neutral-800 font-semibold text-sm
+               px-5 py-2.5 rounded-xl
+               border border-neutral-200 hover:border-amber-300
+               shadow-sm hover:shadow-md
+               transition-all duration-200
+               focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2
+               disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .btn-ghost {
+        @apply inline-flex items-center justify-center gap-2
+               text-neutral-600 hover:text-amber-600 hover:bg-amber-50
+               font-medium text-sm
+               px-3 py-2 rounded-lg
+               transition-all duration-200;
+    }
+
+    .btn-danger {
+        @apply inline-flex items-center justify-center gap-2
+               bg-red-500 hover:bg-red-600
+               text-white font-semibold text-sm
+               px-5 py-2.5 rounded-xl
+               transition-all duration-200
+               disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .btn-icon {
+        @apply inline-flex items-center justify-center
+               w-9 h-9 rounded-lg
+               border border-neutral-200 hover:border-amber-300
+               text-neutral-500 hover:text-amber-600 hover:bg-amber-50
+               transition-all duration-200;
+    }
+
+    /* --- Cards --- */
+    .card {
+        @apply bg-white border border-neutral-200 rounded-2xl shadow-sm;
+    }
+
+    .card-hover {
+        @apply bg-white border border-neutral-200 rounded-2xl shadow-sm
+               hover:shadow-lg hover:border-amber-200
+               transition-all duration-300;
+    }
+
+    /* --- Product Card (e-commerce core) --- */
+    .product-card {
+        @apply bg-white rounded-2xl overflow-hidden
+               border border-neutral-100
+               hover:shadow-xl hover:-translate-y-0.5 hover:border-amber-200
+               transition-all duration-300;
+    }
+
+    .product-card-image {
+        @apply relative overflow-hidden bg-neutral-50;
+        aspect-ratio: 4/3;
+    }
+
+    .product-card-image img {
+        @apply w-full h-full object-cover
+               group-hover:scale-105 transition-transform duration-500;
+    }
+
+    /* --- Input --- */
+    .input {
+        @apply w-full border border-neutral-300 rounded-xl
+               px-4 py-2.5 text-sm text-neutral-900 placeholder-neutral-400
+               bg-white
+               focus:outline-none focus:ring-2 focus:ring-amber-500/25 focus:border-amber-400
+               transition-all duration-200;
+    }
+
+    /* --- Badges --- */
+    .badge     { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold; }
+    .badge-new { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700; }
+    .badge-sale{ @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-600; }
+    .badge-hot { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-100 text-orange-600; }
+    .badge-out { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-500; }
+
+    /* Discount ribbon */
+    .discount-ribbon {
+        @apply absolute top-0 left-0
+               bg-red-500 text-white text-xs font-bold
+               px-2 py-1 rounded-br-xl;
+    }
+
+    /* --- Price --- */
+    .price         { @apply text-neutral-900 font-bold text-lg; }
+    .price-sale    { @apply text-red-600 font-bold text-lg; }
+    .price-original{ @apply text-neutral-400 line-through text-sm font-normal; }
+
+    /* --- Rating --- */
+    .rating-stars {
+        @apply flex items-center gap-0.5;
+    }
+
+    /* --- Quantity stepper --- */
+    .qty-control {
+        @apply inline-flex items-center border border-neutral-200 rounded-xl overflow-hidden;
+    }
+    .qty-btn {
+        @apply w-9 h-9 flex items-center justify-center
+               text-neutral-600 hover:text-amber-600 hover:bg-amber-50
+               font-bold text-base
+               transition-colors duration-150
+               disabled:opacity-40 disabled:cursor-not-allowed;
+    }
+    .qty-input {
+        @apply w-12 h-9 text-center text-sm font-semibold text-neutral-900
+               border-x border-neutral-200 bg-white
+               focus:outline-none;
+    }
+
+    /* --- Section typography --- */
+    .section-title {
+        font-family: var(--font-display);
+        @apply text-3xl sm:text-4xl font-bold text-neutral-900 leading-tight;
+    }
+    .section-subtitle {
+        @apply text-neutral-500 text-base sm:text-lg leading-relaxed;
+    }
+    .section-label {
+        @apply text-amber-600 text-xs font-bold uppercase tracking-widest;
+    }
+
+    /* --- Nav --- */
+    .nav-link {
+        @apply text-neutral-600 hover:text-amber-600 font-medium text-sm
+               transition-colors duration-200;
+    }
+    .nav-link-active {
+        @apply text-amber-600 font-semibold;
+    }
+
+    /* --- Category pill --- */
+    .category-pill {
+        @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full
+               bg-white border border-neutral-200
+               text-neutral-700 text-sm font-medium
+               hover:bg-amber-50 hover:border-amber-300 hover:text-amber-700
+               transition-all duration-200 cursor-pointer whitespace-nowrap;
+    }
+    .category-pill-active {
+        @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full
+               bg-amber-500 border-amber-500
+               text-white text-sm font-medium
+               hover:bg-amber-600
+               transition-all duration-200 cursor-pointer whitespace-nowrap;
+    }
+
+    /* --- Breadcrumb --- */
+    .breadcrumb {
+        @apply flex items-center gap-1.5 text-sm text-neutral-500;
+    }
+    .breadcrumb-item {
+        @apply hover:text-amber-600 transition-colors;
+    }
+    .breadcrumb-sep {
+        @apply text-neutral-300 select-none;
+    }
+    .breadcrumb-current {
+        @apply text-neutral-900 font-medium;
+    }
+
+    /* --- Alerts --- */
+    .alert-success { @apply flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-sm; }
+    .alert-error   { @apply flex items-center gap-3 p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl text-sm; }
+    .alert-warning { @apply flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl text-sm; }
+    .alert-info    { @apply flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 text-blue-800 rounded-xl text-sm; }
+
+    /* --- Skeleton --- */
+    .skeleton { @apply bg-neutral-200 animate-pulse rounded-xl; }
+
+    /* --- Divider --- */
+    .divider { @apply border-t border-neutral-100; }
+
+    /* --- Empty state --- */
+    .empty-state {
+        @apply flex flex-col items-center justify-center py-16 text-center;
+    }
+    .empty-state-icon {
+        @apply text-5xl mb-4;
+    }
+    .empty-state-title {
+        @apply text-lg font-semibold text-neutral-700 mb-2;
+    }
+    .empty-state-desc {
+        @apply text-sm text-neutral-400 max-w-xs;
+    }
+
+    /* --- Order status badge --- */
+    .status-pending    { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700; }
+    .status-processing { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700; }
+    .status-shipped    { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700; }
+    .status-delivered  { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700; }
+    .status-cancelled  { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-600; }
+}
+
+/* ─── UTILITIES ────────────────────────────────────────── */
+@layer utilities {
+    [x-cloak] { display: none !important; }
+
+    .font-display { font-family: var(--font-display); }
+
+    .text-gradient {
+        background: linear-gradient(135deg, #D97706, #F59E0B);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .glass {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background: rgb(255 255 255 / 0.85);
+        border: 1px solid rgb(255 255 255 / 0.3);
+    }
+
+    .img-cover {
+        @apply w-full h-full object-cover;
+    }
+}
+
+/* ─── ANIMATIONS ───────────────────────────────────────── */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+}
+
+.animate-float       { animation: float 3s ease-in-out infinite; }
+.animate-fade-in-up  { animation: fadeInUp 0.4s ease-out forwards; }
+.animate-shimmer {
+    background: linear-gradient(90deg, #f5f5f4 25%, #e7e5e4 50%, #f5f5f4 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
