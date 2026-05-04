@@ -12,3 +12,4 @@ enum NavigationGroup
     case System;
     case Settings;
 }
+

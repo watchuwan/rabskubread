@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use Illuminate\Support\Facades\Schema;
+use App\Models\Setting;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +30,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Share settings to all views
-        View::share('settings', \App\Models\Setting::all()->pluck('value', 'key'));
+    if (Schema::hasTable('settings')) {
+        View::share('settings', Setting::all()->pluck('value', 'key'));
+    } else {
+        View::share('settings', collect()); // fallback biar nggak error di view
+    }
 
         // Add persistent middleware for Livewire
         Livewire::addPersistentMiddleware([
